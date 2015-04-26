@@ -69,6 +69,21 @@ log.stdout = log.stderr = file;
 log.info('blah blah blah');
 ```
 
+### Running
+
+To enable logging, applications using `logbro` must be run with a `NODE_DEBUG`
+environment variable set.
+
+Possible values include `info`, `debug`, `warn`, `error`, and `critical`.
+
+Each value implicitly includes all levels above itself – so, for example, when
+your app is run with `NODE_DEBUG=warn node app.js`, all `warn, `error`, and
+`critical` logs will be sent to `stdout`/`stderr`. In the same example,
+`log.info()` and `log.debug()` would effectively be no-ops.
+
 ### Notes
 
-The `NODE_DEBUG` environment variable can actually contain *multiple* flags, but the one with the **lowest** priority level will win. For example, `NODE_DEBUG=info,debug,critical node app.js` will use `info` as the log level, since it automatically includes the other levels.
+The `NODE_DEBUG` environment variable can actually contain *multiple* flags,
+but the one with the **lowest** priority level will win. For example,
+`NODE_DEBUG=info,debug,critical node app.js` will use `info` as the log level,
+since it automatically includes the other levels.
