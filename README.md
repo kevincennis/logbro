@@ -40,7 +40,7 @@ Apps can optionally overwrite `log.stdout` and `log.stderr` with other instances
 ##### Logging
 
 ```js
-var log = require('./log');
+var log = require('logbro');
 
 log.critical( 'this is a % with some %', 'log', 'formatting' );
 ```
@@ -48,7 +48,7 @@ log.critical( 'this is a % with some %', 'log', 'formatting' );
 ##### Event binding
 
 ```js
-var log = require('./log');
+var log = require('logbro');
 
 log.on( 'critical', function( msg ) {
   slack.notify( msg );
@@ -58,7 +58,7 @@ log.on( 'critical', function( msg ) {
 ##### Streaming
 
 ```js
-var log = require('./log'),
+var log = require('logbro'),
   fs = require('fs'),
   file;
 
