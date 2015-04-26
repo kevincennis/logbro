@@ -1,4 +1,5 @@
-var chai = require('chai');
+var chai = require('chai'),
+ util = require('util');
 
 describe( 'lib/logbro', function() {
 
@@ -34,7 +35,7 @@ describe( 'lib/logbro', function() {
   describe( 'initialize', function() {
 
     [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method ) {
-      it( 'should export `' + method + '`', function() {
+      it( util.format( 'should export `%s`', method ), function() {
         var log = require('rewire')('../../lib/logbro');
 
         chai.assert.isFunction( log[ method ] );
@@ -42,7 +43,7 @@ describe( 'lib/logbro', function() {
     });
 
     [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method, i ) {
-      it( 'should set `loglevel = ' + i + ' when `NODE_DEBUG` contains `' + method + '`', function() {
+      it( util.format( 'should set `loglevel = %d when `NODE_DEBUG` contains `%s`', i, method ), function() {
         var log = require('rewire')('../../lib/logbro'),
           initialize = log.__get__('initialize');
 
@@ -119,7 +120,7 @@ describe( 'lib/logbro', function() {
 
       var stream = i > 2 ? 'stderr' : 'stdout';
 
-      it( 'should write to ' + stream + ' when loglevel is ' + i, function() {
+      it( util.format( 'should write to %s when loglevel is %d', stream, i ), function() {
         var log = require('rewire')('../../lib/logbro');
 
         log.__set__( 'loglevel', i );
@@ -133,7 +134,7 @@ describe( 'lib/logbro', function() {
         log[ method ]('hello world');
       });
 
-      it( 'should emit `' + method + '`', function() {
+      it( util.format( 'should emit `%s`', method ), function() {
         var log = require('rewire')('../../lib/logbro');
 
         log.__set__( 'loglevel', i );
@@ -149,7 +150,7 @@ describe( 'lib/logbro', function() {
         log[ method ]('hello world');
       });
 
-      it( 'should not write to ' + stream + ' when loglevel is greater than' + i, function() {
+      it( util.format( 'should not write to %s when loglevel is greater than %d', stream, i ), function() {
         var log = require('rewire')('../../lib/logbro');
 
         log.__set__( 'loglevel', i + 1 );
