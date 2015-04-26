@@ -80,7 +80,7 @@ environment variable set.
 Possible values include `info`, `debug`, `warn`, `error`, and `critical`.
 
 Each value implicitly includes all levels above itself – so, for example, when
-your app is run with `NODE_DEBUG=warn node app.js`, all `warn, `error`, and
+your app is run with `NODE_DEBUG=warn node app.js`, all `warn`, `error`, and
 `critical` logs will be sent to `stdout`/`stderr`. In the same example,
 `log.info()` and `log.debug()` would effectively be no-ops.
 
