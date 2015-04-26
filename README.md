@@ -47,7 +47,7 @@ Apps can optionally overwrite `bro.stdout` and `bro.stderr` with other instances
 ```js
 var bro = require('logbro');
 
-bro.critical( 'this is a % with some %', 'log', 'formatting' );
+bro.critical( 'this is a %s with some %s', 'log', 'formatting' );
 ```
 
 ##### Event binding
