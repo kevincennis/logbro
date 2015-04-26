@@ -112,247 +112,58 @@ describe( 'lib/logbro', function() {
 
   });
 
-  describe( 'info', function() {
 
-    it( 'should write to stdout when loglevel is 0', function() {
-      var log = require('rewire')('../../lib/logbro');
+  [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method, i ) {
 
-      log.__set__( 'loglevel', 0 );
+    describe( method, function() {
 
-      log.stdout = {
-        write: function( msg ) {
+      var stream = i > 2 ? 'stderr' : 'stdout';
+
+      it( 'should write to ' + stream + ' when loglevel is ' + i, function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i );
+
+        log[ stream ] = {
+          write: function( msg ) {
+            chai.assert.include( msg, 'hello world' );
+          }
+        }
+
+        log[ method ]('hello world');
+      });
+
+      it( 'should emit `' + method + '`', function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i );
+
+        log[ stream ] = {
+          write: function( msg ) {}
+        }
+
+        log.on( method, function( msg ) {
           chai.assert.include( msg, 'hello world' );
+        })
+
+        log[ method ]('hello world');
+      });
+
+      it( 'should not write to ' + stream + ' when loglevel is greater than' + i, function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i + 1 );
+
+        log[ stream ] = {
+          write: function( msg ) {
+            chai.assert.ok( false );
+          }
         }
-      }
 
-      log.info('hello world');
-    });
+        log[ method ]('hello world');
+        chai.assert.ok( true );
+      });
 
-    it( 'should emit `info`', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 0 );
-
-      log.stdout = {
-        write: function( msg ) {}
-      }
-
-      log.on( 'info', function( msg ) {
-        chai.assert.include( msg, 'hello world' );
-      })
-
-      log.info('hello world');
-    });
-
-    it( 'should not write to stdout when loglevel is greater than 0', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 1 );
-
-      log.stdout = {
-        write: function( msg ) {
-          chai.assert.ok( false );
-        }
-      }
-
-      log.info('hello world');
-      chai.assert.ok( true );
-    });
-
-  });
-
-  describe( 'debug', function() {
-
-    it( 'should write to stdout when loglevel is 1', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 1 );
-
-      log.stdout = {
-        write: function( msg ) {
-          chai.assert.include( msg, 'hello world' );
-        }
-      }
-
-      log.debug('hello world');
-    });
-
-    it( 'should emit `debug`', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 0 );
-
-      log.stdout = {
-        write: function( msg ) {}
-      }
-
-      log.on( 'debug', function( msg ) {
-        chai.assert.include( msg, 'hello world' );
-      })
-
-      log.debug('hello world');
-    });
-
-    it( 'should not write to stdout when loglevel is greater than 1', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 2 );
-
-      log.stdout = {
-        write: function( msg ) {
-          chai.assert.ok( false );
-        }
-      }
-
-      log.debug('hello world');
-      chai.assert.ok( true );
-    });
-
-  });
-
-  describe( 'warn', function() {
-
-    it( 'should write to stdout when loglevel is 2', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 2 );
-
-      log.stdout = {
-        write: function( msg ) {
-          chai.assert.include( msg, 'hello world' );
-        }
-      }
-
-      log.warn('hello world');
-    });
-
-    it( 'should emit `warn`', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 0 );
-
-      log.stdout = {
-        write: function( msg ) {}
-      }
-
-      log.on( 'warn', function( msg ) {
-        chai.assert.include( msg, 'hello world' );
-      })
-
-      log.warn('hello world');
-    });
-
-    it( 'should not write to stdout when loglevel is greater than 2', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 3 );
-
-      log.stdout = {
-        write: function( msg ) {
-          chai.assert.ok( false );
-        }
-      }
-
-      log.warn('hello world');
-      chai.assert.ok( true );
-    });
-
-  });
-
-  describe( 'error', function() {
-
-    it( 'should write to stderr when loglevel is 3', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 3 );
-
-      log.stderr = {
-        write: function( msg ) {
-          chai.assert.include( msg, 'hello world' );
-        }
-      }
-
-      log.error('hello world');
-    });
-
-    it( 'should emit `error`', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 0 );
-
-      log.stderr = {
-        write: function( msg ) {}
-      }
-
-      log.on( 'error', function( msg ) {
-        chai.assert.include( msg, 'hello world' );
-      })
-
-      log.error('hello world');
-    });
-
-    it( 'should not write to stderr when loglevel is greater than 3', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 4 );
-
-      log.stderr = {
-        write: function( msg ) {
-          chai.assert.ok( false );
-        }
-      }
-
-      log.error('hello world');
-      chai.assert.ok( true );
-    });
-
-  });
-
-  describe( 'critical', function() {
-
-    it( 'should write to stderr when loglevel is 4', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 4 );
-
-      log.stderr = {
-        write: function( msg ) {
-          chai.assert.include( msg, 'hello world' );
-        }
-      }
-
-      log.critical('hello world');
-    });
-
-    it( 'should emit `critical`', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 0 );
-
-      log.stderr = {
-        write: function( msg ) {}
-      }
-
-      log.on( 'critical', function( msg ) {
-        chai.assert.include( msg, 'hello world' );
-      })
-
-      log.critical('hello world');
-    });
-
-    it( 'should not write to stderr when loglevel is greater than 4', function() {
-      var log = require('rewire')('../../lib/logbro');
-
-      log.__set__( 'loglevel', 5 );
-
-      log.stderr = {
-        write: function( msg ) {
-          chai.assert.ok( false );
-        }
-      }
-
-      log.critical('hello world');
-      chai.assert.ok( true );
     });
 
   });
