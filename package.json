@@ -1,6 +1,6 @@
 {
   "name": "logbro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny logging utility with events and streams",
   "main": "index.js",
   "scripts": {
