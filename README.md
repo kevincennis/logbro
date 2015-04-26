@@ -1,6 +1,8 @@
 logbro
 ========
 
+There were no good names left for logging libraries, so I chose a terrible one instead.
+
 ![Codeship badge](https://codeship.com/projects/ec774770-ce48-0132-5c66-12a910c0e38c/status?branch=master)
 
 
