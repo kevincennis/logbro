@@ -1,7 +1,13 @@
 {
   "name": "logbro",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Tiny logging utility with events and streams",
+  "keywords": [
+    "logging",
+    "logger",
+    "logs",
+    "log"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "grunt"
@@ -10,7 +16,10 @@
     "type": "git",
     "url": "git@github.com:kevincennis/logbro.git"
   },
-  "author": "Kevin Ennis",
+  "author": {
+    "name": "Kevin Ennis",
+    "url": "http://kevvv.in/"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kevincennis/logbro/issues"
