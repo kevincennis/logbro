@@ -48,7 +48,7 @@ describe( 'lib/logbro', function() {
     });
 
     LEVELS.forEach(function( method, i ) {
-      it( util.format( 'should set `loglevel = %d when `NODE_DEBUG` contains `%s`', i, method ), function() {
+      it( util.format( 'should set `loglevel = %d` when `NODE_DEBUG` contains `%s`', i, method ), function() {
         var log = require('rewire')('../../lib/logbro'),
           initialize = log.__get__('initialize');
 
