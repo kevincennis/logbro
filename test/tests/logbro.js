@@ -1,7 +1,12 @@
 var chai = require('chai'),
- util = require('util');
+ util = require('util'),
+ LEVELS;
+
+
 
 describe( 'lib/logbro', function() {
+
+  LEVELS = [ 'trace', 'debug', 'info', 'warn', 'error', 'critical' ];
 
   describe( 'basic', function() {
 
@@ -34,7 +39,7 @@ describe( 'lib/logbro', function() {
 
   describe( 'initialize', function() {
 
-    [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method ) {
+    LEVELS.forEach(function( method ) {
       it( util.format( 'should export `%s`', method ), function() {
         var log = require('rewire')('../../lib/logbro');
 
@@ -42,7 +47,7 @@ describe( 'lib/logbro', function() {
       });
     });
 
-    [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method, i ) {
+    LEVELS.forEach(function( method, i ) {
       it( util.format( 'should set `loglevel = %d when `NODE_DEBUG` contains `%s`', i, method ), function() {
         var log = require('rewire')('../../lib/logbro'),
           initialize = log.__get__('initialize');
@@ -114,11 +119,11 @@ describe( 'lib/logbro', function() {
   });
 
 
-  [ 'info', 'debug', 'warn', 'error', 'critical' ].forEach(function( method, i ) {
+  LEVELS.forEach(function( method, i ) {
 
     describe( method, function() {
 
-      var stream = i > 2 ? 'stderr' : 'stdout';
+      var stream = i > 3 ? 'stderr' : 'stdout';
 
       it( util.format( 'should write to %s when loglevel is %d', stream, i ), function() {
         var log = require('rewire')('../../lib/logbro');
