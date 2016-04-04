@@ -172,6 +172,57 @@ describe( 'lib/logbro', function() {
 
     });
 
+    describe( method + '.json', function() {
+
+      var stream = i > 3 ? 'stderr' : 'stdout';
+
+      it( util.format( 'should write JSON to %s when loglevel is %d', stream, i ), function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i );
+
+        log[ stream ] = {
+          write: function( msg ) {
+            chai.assert.deepEqual( msg, { foo: 'bar'} );
+          }
+        }
+
+        log[ method ].json({ foo: 'bar'});
+      });
+
+      it( util.format( 'should emit `%s`', method ), function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i );
+
+        log[ stream ] = {
+          write: function( msg ) {}
+        }
+
+        log.on( method, function( msg ) {
+          chai.assert.deepEqual( msg, { foo: 'bar'} );
+        })
+
+        log[ method ].json({ foo: 'bar' });
+      });
+
+      it( util.format( 'should not write to %s when loglevel is greater than %d', stream, i ), function() {
+        var log = require('rewire')('../../lib/logbro');
+
+        log.__set__( 'loglevel', i + 1 );
+
+        log[ stream ] = {
+          write: function( msg ) {
+            chai.assert.ok( false );
+          }
+        }
+
+        log[ method ].json({ foo: 'bar' });
+        chai.assert.ok( true );
+      });
+
+    });
+
   });
 
 });
