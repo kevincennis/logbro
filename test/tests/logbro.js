@@ -116,6 +116,18 @@ describe( 'lib/logbro', function() {
       }
     });
 
+    it( 'should log errors without stack traces', function() {
+      var log = require('rewire')('../../lib/logbro'),
+        format = log.__get__('format'),
+        err = new Error('lolnope'),
+        str;
+
+      delete err.stack;
+
+      str = format( 'critical', [ err ] );
+      chai.assert.include( str, 'lolnope' );
+    });
+
   });
 
 
