@@ -30,4 +30,15 @@ describe( path, () => {
       `${ log.stack }`
     );
   } );
+
+  it( 'should output an empty message if it is undefined', () => {
+    const log = {
+      timestamp: new Date().toISOString(),
+      level: 'info'
+    };
+
+    expect( formatPretty( log ) ).to.equal(
+      `[${ log.timestamp }] ${ log.level.toUpperCase() }: `
+    );
+  } );
 } );
