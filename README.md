@@ -121,6 +121,10 @@ Apps can optionally overwrite `bro.stdout` and `bro.stderr` with other
 instances of `stream.Writable` in order to stream logs to the filesystem,
 via HTTP, to a database, etc.
 
+### Node.js Compatibility
+
+`logbro` requires > Node.js 10.
+
 ### Examples
 
 ##### Logging
