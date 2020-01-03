@@ -123,7 +123,7 @@ via HTTP, to a database, etc.
 
 ### Node.js Compatibility
 
-`logbro` requires > Node.js 10.
+`logbro` requires > Node.js 8.6.
 
 ### Examples
 
