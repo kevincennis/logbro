@@ -10,6 +10,7 @@
   "globals": {
     "expect": "readonly",
     "assert": "readonly",
-    "sinon": "readonly"
+    "sinon": "readonly",
+    "getModule": "readonly"
   }
 }
