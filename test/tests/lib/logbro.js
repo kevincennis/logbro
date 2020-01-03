@@ -273,11 +273,13 @@ describe( path, () => {
     it( 'should emit an event with the log level and log object', () => {
       const logger = new Logbro( this.opts );
       Logbro.level = 'trace';
-
+      Logbro.format = 'json';
       let eventData;
+      let formattedEventData;
 
-      logger.once( 'debug', log => {
+      logger.once( 'debug', ( formatted, log ) => {
         eventData = log;
+        formattedEventData = formatted;
       } );
 
       const args = [ 1, 'two', null, { four: 5, six: [ 7, '8' ] } ];
@@ -285,6 +287,7 @@ describe( path, () => {
       const expectedLog = buildLogObject( 'debug', args );
 
       expect( eventData ).to.deep.equal( expectedLog );
+      expect( formattedEventData ).to.equal( logger.format( expectedLog ) );
     } );
   } );
 } );

@@ -141,6 +141,10 @@ bro.critical( 'this is a %s with some %s', 'log', 'formatting' );
 const bro = require('logbro');
 
 bro.on( 'critical', msg => slack.notify( msg ) );
+bro.on( 'error', (msg, log) => {
+  slack.notify(msg);
+  console.error(log.stack);
+})
 ```
 
 ##### Streaming
