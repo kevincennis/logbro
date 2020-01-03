@@ -41,4 +41,21 @@ describe( path, () => {
       `[${ log.timestamp }] ${ log.level.toUpperCase() }: `
     );
   } );
+
+  it( 'should output extra props at the end', () => {
+    const log = {
+      message: 'is valid',
+      timestamp: new Date().toISOString(),
+      level: 'info',
+      this: 'is',
+      extra: [ '1', 2, true ]
+    };
+
+    const extra = 'this: "is"\nextra: ["1",2,true]';
+
+    expect( formatPretty( log ) ).to.equal(
+      `[${ log.timestamp }] ${ log.level.toUpperCase() }: ${ log.message }\n` +
+      extra
+    );
+  } );
 } );
