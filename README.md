@@ -36,13 +36,12 @@ your app is run with `NODE_DEBUG=warn node app.js`, all `warn`, `error`, and
 
 ## API
 
-#### `bro.log(level, [mergingObject], [message], [...interpolationValues])`
+#### `bro.log(level, message, [...interpolationValues])`
 - `level` (string): one of the levels defined above
-- `[mergingObject]` (Object): an optional object to merge with the top level of the log. E.g. An `Error` object or other metadata.
-- `[message]` (string): an optional message. If the message is a format string, it will use the `interpolationValues` as the format parameters. This `message` will overwrite a `message` property provided by a `mergingObject`.
-- `[...interpolationValues]` (...any): optional values to use to format the `message` if it is a format string. Otherwise, these values will be appended to the `message`.
+- `message` (string): an optional message. If the message is a format string, it will use the `interpolationValues` as the format parameters.
+- `[...interpolationValues]` (...any): optional values to use to format the `message` using `util.format()`. Otherwise, these values will be appended to the `message`.
 
-#### `bro.<level>([mergingObject], [message], [interpolationValues])`
+#### `bro.<level>(messages, [interpolationValues])`
 
 The same as `bro.log`, but without the need to pass the `level` as a parameter. Prefer using these to `bro.log`.
 
@@ -54,7 +53,6 @@ Get the current log format **OR** set the current log format for this `bro` inst
 - `timestamp` (string)
 - `level` (string)
 - `message` (string | undefined)
-- The rest of the properties will be copied from the `mergingObject`
 
 
 #### `Logbro.level` (string)
@@ -81,7 +79,7 @@ bro.log('info', 'This is an info log');
 bro.info('This is another info log');
 ```
 
-**NOTE**: `bro.log` has the same argument signature as `console.log` if the `mergingObject` is omitted.
+**NOTE**: `bro.log` has the same argument signature as `console.log`.
 
 ### Configuration
 
