@@ -1,0 +1,16 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "extends": "plugin:mocha/recommended",
+  "plugins": [ "mocha" ],
+  "rules": {
+    "mocha/no-mocha-arrows": "off"
+  },
+  "globals": {
+    "expect": "readonly",
+    "assert": "readonly",
+    "sinon": "readonly",
+    "getModule": "readonly"
+  }
+}

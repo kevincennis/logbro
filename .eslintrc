@@ -1,0 +1,6 @@
+{
+  "extends": "starry",
+  "parserOptions": {
+      "ecmaVersion": 2018
+  }
+}
