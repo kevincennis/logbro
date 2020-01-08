@@ -270,24 +270,21 @@ describe( path, () => {
       expect( this.data ).to.equal( format( expected ) + '\n' );
     } );
 
-    it( 'should emit an event with the log level and log object', () => {
+    it( 'should emit an event with the log level and log object', done => {
       const logger = new Logbro( this.opts );
       Logbro.level = 'trace';
       Logbro.format = 'json';
-      let eventData;
-      let formattedEventData;
-
-      logger.once( 'debug', ( formatted, log ) => {
-        eventData = log;
-        formattedEventData = formatted;
-      } );
 
       const args = [ 1, 'two', null, { four: 5, six: [ 7, '8' ] } ];
-      logger[ logWithFormat ]( 'debug', JSON.stringify, ...args );
       const expectedLog = buildLogObject( 'debug', args );
 
-      expect( eventData ).to.deep.equal( expectedLog );
-      expect( formattedEventData ).to.equal( logger.format( expectedLog ) );
+      logger.once( 'debug', ( formatted, log ) => {
+        expect( log ).to.deep.equal( expectedLog );
+        expect( formatted ).to.equal( logger.format( expectedLog ) );
+        done();
+      } );
+
+      logger[ logWithFormat ]( 'debug', formats.json, ...args );
     } );
   } );
 } );
