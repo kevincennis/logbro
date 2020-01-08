@@ -24,6 +24,20 @@ describe( path, () => {
   } );
 
   it( 'should not serialize an Error', () => {
-    expect( formatJson( new Error('test') ) ).to.equal('{}');
+    const error =  new Error('test');
+    error.level = 'info';
+    expect( formatJson( error ) ).to.equal('{"level":"INFO"}');
+  } );
+
+  it( 'should uppercase the log level', () => {
+    const log = {
+      level: 'info',
+      timestamp: new Date().toISOString(),
+      message: 'Test message'
+    };
+
+    expect( formatJson( log ) ).to.equal(
+      JSON.stringify({ ...log, level: log.level.toUpperCase() })
+    );
   } );
 } );
