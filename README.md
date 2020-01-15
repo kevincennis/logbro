@@ -41,7 +41,7 @@ your app is run with `NODE_DEBUG=warn node app.js`, all `warn`, `error`, and
 - `message` (string): an optional message. If the message is a format string, it will use the `interpolationValues` as the format parameters.
 - `[...interpolationValues]` (...any): optional values to use to format the `message` using `util.format()`. Otherwise, these values will be appended to the `message`.
 
-#### `bro.<level>(messages, [interpolationValues])`
+#### `bro.<level>(message, [interpolationValues])`
 
 The same as `bro.log`, but without the need to pass the `level` as a parameter. Prefer using these to `bro.log`.
 
