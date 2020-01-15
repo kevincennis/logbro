@@ -216,13 +216,20 @@ describe( path, () => {
   describe( '#logWithFormat', () => {
     beforeEach( () => {
       delete this.data;
-      const writable = new Writable();
-      writable._write = ( chunk, enc, next ) => {
+      delete this.error;
+      const stdout = new Writable();
+      stdout._write = ( chunk, enc, next ) => {
         this.data = chunk.toString();
         next();
       };
 
-      this.opts = { stdout: writable, stderr: writable };
+      const stderr = new Writable();
+      stderr._write = ( chunk, enc, next ) => {
+        this.error = chunk.toString();
+        next();
+      };
+
+      this.opts = { stdout, stderr };
     });
 
     before( () => {
@@ -258,6 +265,16 @@ describe( path, () => {
       ).to.be.undefined;
 
       expect( this.data ).to.equal('test\n');
+    } );
+
+    it( 'should log to stderr if loglevel <= 3', () => {
+      const logger = new Logbro( this.opts );
+      Logbro.level = 'info';
+      expect(
+        logger[ logWithFormat ]( 'error', () => 'test', 'message' )
+      ).to.be.undefined;
+
+      expect( this.error ).to.equal('test\n');
     } );
 
     it( 'should use util.buildLogObject with the level and args', () => {
