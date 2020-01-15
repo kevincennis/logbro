@@ -232,9 +232,12 @@ describe( path, () => {
 
     after( () => this.clock.restore() );
 
-    it( 'should do nothing if the level is invalid', () => {
+    it( 'should do nothing if level is undefined', () => {
       const logger = new Logbro( this.opts );
-      expect( logger[ logWithFormat ]('badlevel') ).to.be.undefined;
+      Logbro.level = undefined;
+      expect(
+        logger[ logWithFormat ]( 'error', JSON.stringify, 'message' )
+      ).to.be.undefined;
       expect( this.data ).to.be.undefined;
     } );
 
